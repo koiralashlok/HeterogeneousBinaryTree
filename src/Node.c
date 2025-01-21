@@ -4,7 +4,7 @@
 #include "headers/Types.h"
 #include "headers/Node.h"
 
-struct Node* getNode(struct Data data)
+struct Node* getNode(struct Data data, enum DataType nodeDataType)
 {
     // struct Data dataForNode = {typeOfData, 0, 0, false};
     
@@ -29,23 +29,24 @@ struct Node* getNode(struct Data data)
     struct Node* newNode = malloc(sizeof (struct Node));
     newNode->data = data;
     newNode->leftChild = newNode->rightChild = NULL;
+    newNode->type = nodeDataType;
 
     return newNode;
 }
 
-void printNodeData(struct Node node, enum DataType treeType)
+void printNodeData(struct Node node, enum DataType treeType, bool isHomogenous)
 {
     struct Data data = node.data;
-    switch (treeType)
+    switch (isHomogenous ? treeType : node.type)
     {
         case INTEGER:
-            printf("%d", data.integerData);
+            printf("%d\t", data.integerData);
             break;
         case CHARACTER:
-            printf("%c", data.charData);
+            printf("%c\t", data.charData);
             break;
         case BOOLEAN:
-            printf("%s", data.booleanData ? "true" : "false");
+            printf("%s\t", data.booleanData ? "true" : "false");
             break;
         default:
             // TODO SOEMTHING!!!

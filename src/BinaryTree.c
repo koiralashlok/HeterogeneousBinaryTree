@@ -1,15 +1,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "headers/Types.h"
 #include "headers/Node.h"
 #include "headers/BinaryTree.h"
 
-struct BinaryTree* getTree(struct Data data, enum DataType treeDataType)
+struct BinaryTree* getTree(struct Data data, enum DataType treeDataType, bool homogenousTree)
 {
-    struct Node* root = getNode(data);
+    // First node will be of the same data type as the tree
+    struct Node* root = getNode(data, treeDataType);
     struct BinaryTree* btree = malloc(sizeof (struct BinaryTree));
     btree->root = root;
     btree->type=treeDataType;
+    btree->isHomogenous = homogenousTree;
 
     return btree;
 }
@@ -86,8 +89,9 @@ int addChildByNode(struct Node* parent, struct Node* child, bool addLeftChild)
 
 /**
  * Overwrites already existent child and descendants
+ * type provided only used if tree is not homogenous
  */
-int addChildByData(struct Node* parent, struct Data data, bool addLeftChild)
+int addChildByData(struct Node* parent, struct Data data, enum DataType childDataType, bool addLeftChild)
 {
     // Allocate memory for the new child
     struct Node* newChild = malloc(sizeof (struct Node));
@@ -97,6 +101,7 @@ int addChildByData(struct Node* parent, struct Data data, bool addLeftChild)
     // Set data
     // does this work if data is not a pointer? is it possible that it will update locally but not to the caller?
     newChild->data = data;
+    newChild->type = childDataType;
 
     // Start out as a leaf
     newChild->leftChild = newChild->rightChild = NULL;
@@ -104,17 +109,17 @@ int addChildByData(struct Node* parent, struct Data data, bool addLeftChild)
     return addChildByNode(parent, newChild, addLeftChild);
 }
 
-static void dfs(struct Node* root, enum DataType treeType)
+static void dfs(struct Node* root, enum DataType treeType, bool isHomogenous)
 {
     if(root == NULL)
         return;
     
     if(root->leftChild != NULL)
-        dfs(root->leftChild, treeType);
+        dfs(root->leftChild, treeType, isHomogenous);
     if(root->rightChild != NULL)
-        dfs(root->rightChild, treeType);
+        dfs(root->rightChild, treeType, isHomogenous);
 
-    printNodeData(*root, treeType);
+    printNodeData(*root, treeType, isHomogenous);
 }
 
 /**
@@ -125,10 +130,13 @@ void viewTree(struct BinaryTree tree, bool doBfs)
     switch(doBfs)
     {
         case true:
-        dfs(tree.root, tree.type);
+            dfs(tree.root, tree.type, tree.isHomogenous);
+            break;
+
         default:
-        // rip queues lol
-        dfs(tree.root, tree.type);
-        return;
+            // rip queues lol
+            // shd be bfs
+            dfs(tree.root, tree.type, tree.isHomogenous);
     }
+    printf("\n");
 }

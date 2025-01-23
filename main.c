@@ -4,7 +4,7 @@
 #include "src/headers/Node.h"
 #include "src/headers/BinaryTree.h"
 
-int test1()
+void sample1()
 {
     printf("\n");
     struct Data data1 = {1, '1', true};
@@ -35,7 +35,7 @@ int test1()
         / \
        2   3
     */
-    viewTree(*tree, false); // TODO inadequete, need to iterate thru children
+    viewTree(*tree, false);
 
 
     deleteSubtree(tree->root, true);
@@ -44,10 +44,10 @@ int test1()
          \
           3
     */
-   viewTree(*tree, false); // TODO inadequete, need to iterate thru children
+   viewTree(*tree, false);
 }
 
-int test2()
+void sample2()
 {
     printf("\n");
     struct Data data1 = {1, '1', true};
@@ -78,7 +78,7 @@ int test2()
         / \
        2   3
     */
-    viewTree(*tree, false); // TODO inadequete, need to iterate thru children
+    viewTree(*tree, false);
 
 
     deleteSubtree(tree->root, true);
@@ -87,14 +87,14 @@ int test2()
          \
           3
     */
-   viewTree(*tree, false); // TODO inadequete, need to iterate thru children
+   viewTree(*tree, false);
 }
 
 
 int main()
 {
-    test1();
-    test2();
+    sample1();
+    sample2();
     // TODO what if a node is added as its own child? or if same node is a child of different nodes?
     // TODO memory leaks?
     // TODO show error when user tries to add a child to a node that is null using the addchild functions

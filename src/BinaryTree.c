@@ -5,6 +5,15 @@
 #include "headers/Node.h"
 #include "headers/BinaryTree.h"
 
+/**
+ * Get a new BinaryTree
+ * 
+ * @param data Data struct to initialize the root node
+ * @param treeDataType Data type for the tree
+ * @param isHomogenous Should the tree be homogenous
+ * 
+ * @returns a BinaryTree with given parameters
+ */
 struct BinaryTree* getTree(struct Data data, enum DataType treeDataType, bool homogenousTree)
 {
     // First node will be of the same data type as the tree
@@ -17,6 +26,11 @@ struct BinaryTree* getTree(struct Data data, enum DataType treeDataType, bool ho
     return btree;
 }
 
+/**
+ * Deletes and frees all descendents of @param node
+ * 
+ * @returns error code
+ */
 int deleteAllDescendents(struct Node* node)
 {
     // Reached children of a leaf
@@ -34,6 +48,13 @@ int deleteAllDescendents(struct Node* node)
     return 0;
 }
 
+/**
+ * Deletes subtree rooted at @param node
+ * 
+ * @param deleteLeftSubtree true if left subtree should be deleted, false for right subtree
+ * 
+ * @returns error code
+ */
 int deleteSubtree(struct Node* node, bool deleteLeftSubtree)
 {
     int retval = 1;
@@ -50,11 +71,14 @@ int deleteSubtree(struct Node* node, bool deleteLeftSubtree)
         break;
     }
     return retval;
-
 }
 /**
- * Add node to be child of parent
- * Technically can add entire subtree rooted at child
+ * Add @param child node to be child of @param parent node
+ * Can add entire subtree rooted at @param child node
+ * 
+ * @param addLeftChild true if @param child should be a left child false if right child
+ * 
+ * @returns error code
  */
 int addChildByNode(struct Node* parent, struct Node* child, bool addLeftChild)
 {
@@ -89,7 +113,14 @@ int addChildByNode(struct Node* parent, struct Node* child, bool addLeftChild)
 
 /**
  * Overwrites already existent child and descendants
- * type provided only used if tree is not homogenous
+ * 
+ * @param parent node to add child to
+ * @param data data for new child node
+ * @param type provided only used if tree is not homogenous
+ * @param childDataType data type for new child node
+ * @param addLeftChild true if @param child should be a left child false if right child
+ * 
+ * @returns error code
  */
 int addChildByData(struct Node* parent, struct Data data, enum DataType childDataType, bool addLeftChild)
 {
@@ -109,6 +140,12 @@ int addChildByData(struct Node* parent, struct Data data, enum DataType childDat
     return addChildByNode(parent, newChild, addLeftChild);
 }
 
+/**
+ * Traverse tree rooted at @param root in DFS order
+ * 
+ * @param treeType to use if tree is homogenous
+ * @param isHomogenous true if tree to be traversed is homogenous
+ */
 static void dfs(struct Node* root, enum DataType treeType, bool isHomogenous)
 {
     if(root == NULL)
@@ -123,7 +160,10 @@ static void dfs(struct Node* root, enum DataType treeType, bool isHomogenous)
 }
 
 /**
- * doBfs = false => DFS
+ * View @param tree
+ * 
+ * @param doBFS true for BFS traversal, false for DFS
+ * @note BFS is still unimplemented so only DFS traversal is done
  */
 void viewTree(struct BinaryTree tree, bool doBfs)
 {

@@ -4,6 +4,14 @@
 #include "headers/Types.h"
 #include "headers/Node.h"
 
+/**
+ * Get a new node
+ * 
+ * @param data data for new node
+ * @param nodeDataType data type for new node
+ * 
+ * @returns a node initialized using given parameters
+ */
 struct Node* getNode(struct Data data, enum DataType nodeDataType)
 {
     // struct Data dataForNode = {typeOfData, 0, 0, false};
@@ -34,6 +42,13 @@ struct Node* getNode(struct Data data, enum DataType nodeDataType)
     return newNode;
 }
 
+/**
+ * Print the data stored in the node depending on tree type or its data type
+ * 
+ * @param node node whose data is to be printed
+ * @param treeType data type of tree of @param node
+ * @param isHomogenous true if @param node's tree is homogenous
+ */
 void printNodeData(struct Node node, enum DataType treeType, bool isHomogenous)
 {
     struct Data data = node.data;
